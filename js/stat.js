@@ -37,14 +37,14 @@ var getMaxElement = function (arr) {
   }
 };
 
-var displayText = function (ctx, text, style, font, x, y){
+var displayText = function (ctx, text, style, font, x, y) {
   ctx.fillStyle = style;
   ctx.font = font;
   ctx.fillText(text, x, y);
 };
 
-var displayColumnDiagram = function(ctx, player, x, y, width, height){
- if (player === 'Вы') {
+var displayColumnDiagram = function (ctx, player, x, y, width, height) {
+  if (player === 'Вы') {
     ctx.fillStyle = 'rgba(255, 0, 0, 1)';
   } else {
     ctx.fillStyle = 'hsl(246, ' + Math.round(Math.random() * 100) + '%, 50%)';
