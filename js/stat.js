@@ -37,28 +37,38 @@ var getMaxElement = function (arr) {
   }
 };
 
+var displayText = function (ctx, text, style, font, x, y){
+  ctx.fillStyle = style;
+  ctx.font = font;
+  ctx.fillText(text, x, y);
+};
+
+var displayColumnDiagram = function(ctx, player, x, y, width, height){
+ if (player === 'Вы') {
+    ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+  } else {
+    ctx.fillStyle = 'hsl(246, ' + Math.round(Math.random() * 100) + '%, 50%)';
+  }
+
+  ctx.fillRect(x, y, width, height);
+
+};
+
 window.renderStatistics = function (ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.3)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
 
-  ctx.fillStyle = '#000';
-  ctx.font = 'bold 16px PT Mono';
-  ctx.fillText('Ура вы победили!', CAPTION_X, CAPTION_Y);
-
-  ctx.font = '16px PT Mono';
-  ctx.fillText('Список результатов:', SUBTITLE_X, SUBTITLE_Y);
+  displayText(ctx, 'Ура вы победили!', '#000', 'bold 16px PT Mono', CAPTION_X, CAPTION_Y);
+  displayText(ctx, 'Список результатов:', '#000', 'bold 16px PT Mono', SUBTITLE_X, SUBTITLE_Y);
 
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
-    ctx.fillText(Math.round(times[i]), CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - (BAR_HEIGHT * times[i]) / maxTime - FONT_GAP_TOP);
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'hsl(246, ' + Math.round(Math.random() * 100) + '%, 50%)';
-    }
-    ctx.fillRect(CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP_BOTTOM - BAR_HEIGHT * Math.round(times[i]) / maxTime, BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
+
+    displayText(ctx, Math.round(times[i]), '#000', 'bold 16px PT Mono', CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - (BAR_HEIGHT * times[i]) / maxTime - FONT_GAP_TOP);
+    displayColumnDiagram(ctx, players[i], CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, CLOUD_HEIGHT - GAP_BOTTOM - BAR_HEIGHT * Math.round(times[i]) / maxTime, BAR_WIDTH, (BAR_HEIGHT * times[i]) / maxTime);
     ctx.fillStyle = 'rgba(0, 0, 0, 1)';
-    ctx.fillText(players[i], CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, FONT_BOTTOM_Y);
+    displayText(ctx, players[i], '#000', 'bold 16px PT Mono', CLOUD_X + GAP_X + (GAP + BAR_WIDTH) * i, FONT_BOTTOM_Y);
+
   }
 };
